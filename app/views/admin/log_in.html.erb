@@ -1,0 +1,22 @@
+<h3> 管理員登入 </h3>
+<!-- 把form 資料送到哪個action -->
+<%= form_tag admin_create_session_path, method: "post" do %> 
+	<%= label_tag :email, "Email" %>
+	<%= text_field_tag :email %> <br />
+
+	<%= label_tag :password, "Password" %>
+	<%= password_field_tag :password %> <br />
+
+	<%= submit_tag "Log In" %>
+<% end %>
+
+<!-- call the method name by symbol :name -->
+<%= current_user.try(:name) %> 
+
+
+
+
+
+
+
+

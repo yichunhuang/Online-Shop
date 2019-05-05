@@ -1,0 +1,18 @@
+<% categories.each do |category| %>
+	<ul class="list-group">
+		<li class="list-group-item">
+			<%= link_to products_category_path(category) do %>
+				<%= category.name %>
+			<% end %>
+			<% category.subcategories.each do |subcategory| %>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<%= link_to products_subcategory_path(category, subcategory) do %>
+					 		<%= subcategory.name %>
+					 	<% end %>
+					</li>
+				</ul>
+			<% end %>
+		</li>
+	</ul>
+<% end %>
