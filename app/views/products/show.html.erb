@@ -12,7 +12,17 @@
 			</div>
 			<div class="row">
 				<div class="col-3">
-					<%= image_tag (@product.image_url|| "https://via.placeholder.com/350x200"), size: "200x200", class:"img-responsive" %>
+					<%= image_tag (@product.image_url.to_s || "https://via.placeholder.com/350x200"), size: "200x200", class:"img-responsive" %>
+					<div style="padding: 16px 0px;">
+						<p> 購買數量 </p>
+						<select id="quantity_selection" style="width: 100%;">
+							<option value="1" selected> 1</option>
+							<option value="2"> 2 </option>
+							<option value="3"> 3 </option>
+							<option value="4"> 4 </option>
+							<option value="5"> 5 </option>
+						</select>
+					</div>
 				</div>
 				<div class="col-9">
 					<div class="card">
@@ -21,6 +31,7 @@
 					  </div>
 					  <div class="card-body">
 					    <p> <%= @product.description %> </p>
+					    <p> <%= "價錢： #{@product.price} " %> </p>
 					  </div>
 					</div>
 				</div>
@@ -28,11 +39,39 @@
 			<br />
 			<div class="row">
 				<div class="col-12">
-					<button class="btn btn-primary btn-block">
-						Buy it now!
-					</button>
+					<%= form_tag cart_items_path, method: :post do %>
+						<%= hidden_field_tag(:product_id, @product.id, id: nil ) %>
+						<%= hidden_field_tag(:cart_type, Cart.cart_types[:buy_now], id: nil ) %>
+						<%= hidden_field_tag(:quantity, 1, id: "quantity") %>
+						<button class="btn btn-primary btn-block">
+							Buy it now
+						</button>
+					<% end %>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-12">
+					<%= form_tag cart_items_path, method: :post do %>
+						<%= hidden_field_tag(:product_id, @product.id, id: nil ) %>
+						<%= hidden_field_tag(:cart_type, Cart.cart_types[:buy_next_time], id: nil ) %>
+						<%= hidden_field_tag(:quantity, 1, id: nil) %>
+						<button class="btn btn-warning btn-block">
+							Buy it next time
+						</button>
+					<% end %>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function(){
+		$("#quantity_selection").change(function(){
+			var value = $(this).val();
+			$("#quantity").val(value);
+		})
+	})
+	
+</script>

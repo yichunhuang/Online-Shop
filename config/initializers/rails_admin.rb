@@ -1,12 +1,20 @@
 RailsAdmin.config do |config|
 
   ### Popular gems integration
+  config.authorize_with do
+    unless (current_user && current_user.is_admin?)
+      # flash[:notice] = "你沒有權限"
+      # redirect_to main_app.root_path 
+      raise ActionController::RoutingError.new('Not Found') # production mode 404 
+    end
+  end
 
   ## == Devise ==
   # config.authenticate_with do
   #   warden.authenticate! scope: :user
   # end
   # config.current_user_method(&:current_user)
+
 
   ## == Cancan ==
   # config.authorize_with :cancan

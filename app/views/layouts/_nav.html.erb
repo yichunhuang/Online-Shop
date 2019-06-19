@@ -6,11 +6,10 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li> -->
+      <li class="nav-item active">
+        <%= link_to "查看訂單", orders_path, class:"nav-link"%>      </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <%= link_to "結帳", cart_items_path, class:"nav-link"%>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,11 +18,13 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           
           <% if current_user %>
-            <%= link_to "New Product", new_product_path, class:"dropdown-item"%><br />
-            <%= link_to "Log Out", admin_log_out_path, class:"dropdown-item" %>
+            <% if current_user.is_admin? %>
+              <%= link_to "New Product", new_product_path, class:"dropdown-item"%><br />
+            <% end %>
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"dropdown-item" %>
             
           <% else %>
-            <%= link_to "Log In", admin_log_in_path, class:"dropdown-item" %>
+            <%= link_to "Log In", new_user_session_path, class:"dropdown-item" %>
           <% end %>
           
           <div class="dropdown-divider"></div>

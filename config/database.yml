@@ -5,21 +5,32 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+
+  # encoding: utf8 可加可不加
+  database: ShopDb
+  username: root
+  password: 123456
+  # host: 127.0.0.1 連到本機可加可不加，連到外面一定要加
+  # port: 3306
+  # flags: 需要再到https://github.com/brianmario/mysql2 做調整
+  #   - -COMPRESS
+  #   - FOUND_ROWS
+  #   - MULTI_STATEMENTS
+  # secure_auth: false
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: ShopDbDev
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: ShopDbTest
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: ShopDbPro

@@ -70,9 +70,9 @@ class ProductsController < ApplicationController
 		params.require(:product).permit([:name, :description, :price, :subcategory_id])
 	end
 
-	def redirect_to_root_if_not_log_in
-		if !current_user
-			flash[:notice] = "Not Yet Logged In"
+	def redirect_to_root_if_not_log_in 
+		if !current_user || !current_user.is_admin
+			flash[:notice] = "您沒有權限"
 			redirect_to root_path
 			return
 		end
@@ -115,11 +115,12 @@ class ProductsController < ApplicationController
 	end
 
 	def get_all_categories
-		@categories = Category.all
+		@categories = Category.includes(:subcategories).all
 	end
 
 	def get_products
-		@products = Product.all
+		# model的關聯性要先做出來(has_one, belongs_to, ..)才能做include增加SQL效率
+		@products = Product.includes(:subcategory).includes(:category).all
 	end
 
 	def create_pagination

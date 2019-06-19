@@ -1,6 +1,6 @@
 <div class="thumbnail">
   <%= link_to product_path(product) do %>
-    <%= image_tag (product.image_url|| "https://via.placeholder.com/350x200"), size: "200x200" %>
+    <%= image_tag (product.image_url.to_s || "https://via.placeholder.com/350x200"), size: "200x200" %>
   <% end %>
   <div class="caption">
     <%= link_to product_path(product) do %>
@@ -8,7 +8,8 @@
     <% end %>
     <p> <%= product.description %> </p>
     <p> <%= product.subcategory.try(:name_with_category) %> </p>
-    <% if current_user %>
+    <p> <%= product.price %> </p> <!-- price一定不會是null -->
+    <% if current_user && current_user.is_admin? %>
 	    <div> 
 	    	<%= link_to 'Edit', edit_product_path(product), class: "btn btn-primary" %>
 	    	<%= link_to 'Delete', product_path(product), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure?"} %>
